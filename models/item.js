@@ -1,13 +1,5 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
-
-const db = new Sequelize('my_shop_db', 'postgres', 'p0tat0888', {
-    host: 'localhost',
-    dialect: 'postgres',
-    operatorsAliases: false
-});
-db.authenticate()
-    .then(() => console.log('Data base connected...'))
-    .catch(err => console.log('Error' + err))
+const { Sequelize} = require("sequelize");
+const db = require('../config/dataBase.js');
 
 const Item = db.define("item", {
     title: {

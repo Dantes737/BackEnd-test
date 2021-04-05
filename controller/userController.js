@@ -1,19 +1,9 @@
 const crypto = require("crypto");
 const { prepareToken } = require("../utils/token");
 const User = require('../models/user.js');
-const { log } = require("console");
 
 class UsersController {
-    // ---------------- Функція для перевірки правильності пароля ------------
-    // validPassword(password) {
-    //     //----------- Формуємо хеш переданого (для перевірки) пароля ----
-    //     const loginHash = crypto
-    //         .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
-    //         .toString("hex");
-    //     //------------ Перевіряємо, чи одержано такий же хеш як у базі -------------
-    //     return loginHash;
-    // };
-
+//------------Реєстрація нового користувача-----------------------
     async signIN(req, res) {
         let salt;
         let hash;
@@ -47,7 +37,7 @@ class UsersController {
                 return res.status(500).json({ error: "Signup error" });
             });
     };
-
+//-------------------Логінізація користувача-----------------------
     async login(req, res) {
         if (!req.body.email) {
             return res.status(401).json({ error: "Email is required" });
@@ -59,29 +49,35 @@ class UsersController {
         await User.findOne({ where: { email: req.body.email } })
             // .exec()
             .then((user) => {
-                const signInHasg=user.hash;
+               const myUser=user.dataValues;
+               console.log(user);
                 //////////////////////////////////////////////
-                function validPassword(password) {
+                function validPassword(password,salt) {
                     //----------- Формуємо хеш переданого (для перевірки) пароля ----
-                    const loginHash = crypto
-                        .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+                    const hash = crypto
+                        .pbkdf2Sync(password, salt, 10000, 512, "sha512")
                         .toString("hex");
                     //------------ Перевіряємо, чи одержано такий же хеш як у базі -------------
-                    return loginHash;
+                    return hash;
                 };
                 ////////////////////////////////////////////////
+                const loginHash=validPassword(req.body.password,myUser.salt) ;
+                const signInHash=myUser.hash;
+                console.log(`HASH-1:${loginHash}`);
+                console.log(`HASH-2:${signInHash}`);
 
-                if (!user) {
+
+                if (!myUser) {
                     return res.status(401).json({ error: "User not found" });
                 }
-                if (validPassword(req.body.password) === signInHasg) {
+                if (!loginHash=== signInHash) {
                     console.log("TRUE");
                     return res.status(401).json({ error: "Pass error" });
                 }
                 const token = prepareToken(
                     {
-                        id: user.id,
-                        nick: user.nick,
+                        id: myUser.id,
+                        nick: myUser.nick,
                     },
                     req.headers
                 );
@@ -90,8 +86,8 @@ class UsersController {
                     result: "Authorized",
                     user: {
                         authData: {
-                            name: user.name,
-                            nick: user.nick,
+                            name: myUser.name,
+                            nick: myUser.nick,
                             access_token: token,
                         },
                         expiresAt,
@@ -102,6 +98,7 @@ class UsersController {
                 return res.status(401).json({ error: "Login error" });
             });
     };
+//----------------------------
     async getUsers(req, res) {
 
     };
