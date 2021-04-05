@@ -13,3 +13,6 @@ a {
   background-color: #6ac861;
   border-radius: 5px;
 }
+.signInLabel{
+  display: block;
+}

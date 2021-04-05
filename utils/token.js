@@ -1,8 +1,9 @@
 //---------------------- /utils/token.js ------------------------------
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 const expiresIn = '60m'
-const tokenKey = 'Our Token Key'   // Save in .env !!!
+const tokenKey = process.env.APP_TOKEN_SECRET   // Save in .env !!!
 
 function parseBearer(bearer, headers) {
     let token=null

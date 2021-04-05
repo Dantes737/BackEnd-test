@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 const cinemaList = [
   {
     name: "Domion",
@@ -26,7 +27,7 @@ const cinemaList = [
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('itemPage', { title: 'RottenApples Market',cinemaList:cinemaList });
+  res.render('itemPage', { title: 'RottenApples Market', cinemaList: cinemaList });
 });
 
 module.exports = router;

@@ -1,27 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <%-include("header.ejs")%>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<%-include("header.ejs")%>
+
   <body>
     <div class="main">
-      <h2>Welcome to our sales company <%= title %></h2>
+      <h2>Welcome to our sales company <%= title %>
+      </h2>
       <div>
-        <p>Авторизуйтесь, щоб користуватися всіма функціями сайту:</p>
-    <form action="">
-      <input type="text">
-    </form>
+        <p>Sign In, if you want to use our site:</p>
+
+        <form action="/users/user-sign-in" method="POST">
+
+          <label class="signInLabel">
+            Name: <input type="text" name="name">
+          </label>
+
+          <label class="signInLabel">
+            Nick: <input type="text" name="nick">
+          </label>
+
+          <label class="signInLabel">
+            Email: <input type="text" name="email">
+          </label>
+
+          <label class="signInLabel">
+            Password: <input type="text" name="password">
+          </label>
+
+          <input type="submit" value="Sign In">
+        </form>
       </div>
 
       <div>
-        <p>Якщо ви вперше на нашому сайті то зареєструйтесь:</p>
-    <form action="">
-      <input type="text">
-    </form>
+        <p>Or login if you have an account on our site :</p>
+
+        <form action="/users/user-login" method="POST">
+          <label class="signInLabel">
+            Email: <input type="text" name="email">
+          </label>
+
+          <label class="signInLabel">
+            Password: <input type="text" name="password">
+          </label>
+
+          <input type="submit" value="Log In">
+        </form>
       </div>
     </div>
- 
-  </body> 
+
+  </body>
+
 </html>
