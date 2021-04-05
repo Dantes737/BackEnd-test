@@ -1,18 +1,24 @@
-const db = require('../db.js')
+const Item = require('../models/item.js');
+
 
 class ItemsController {
     async createItem(req, res) {
         const { title, price, category, user_id } = req.query
-        console.log(title, price, category, user_id);
-        // const newItem = await db
-        await db.query(`INSERT INTO item(title, price, category, user_id) values ($1,$2,$3,$4) RETURNING *`, [title, price, category, user_id])
-        // if (err) return res.status(500).json({ err: { msg: "Saving faild!" } })
-        res.redirect('/items/item')
+        Item.create({
+            title, price, category, user_id
+        })
+        //  .then(items => {
+        //     console.log(items);
+        // })
+        // .catch(err => console.log('Error' + err))
+        res.redirect('/items/item');
     };
     async getItems(req, res) {
-        const items = await db.query('SELECT * FROM item')
-        let itemsList=items.rows
-        res.render('items-listPage', { title: 'RottenApples Market',itemsList:itemsList });
+        Item.findAll()
+            .then(items => {
+                res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
+            })
+            .catch(err => console.log('Error' + err))
     };
     async getOneItem(req, res) {
         let id = req.params.id
@@ -28,14 +34,20 @@ class ItemsController {
         const { id, title, price, category } = req.body
         console.log(id, title, price, category);
         const items = await db
-            .query(`UPDATE item set  title=$1, price=$2, category=$3 where id=$4 RETURNING *`, [title, price, category,id])
+            .query(`UPDATE item set  title=$1, price=$2, category=$3 where id=$4 RETURNING *`, [title, price, category, id])
         res.json(items.rows[0])
     };
     async deleteItem(req, res) {
-        let id = req.params.id
-        const item = await db.query('DELETE FROM item where id=$1', [id])
-        res.json(item.rows[0])
+        let item = await Item.findOne({ where: { title: req.query.title } }).catch(e => {
+            console.log(e.message)
+        })
+        if (!item) {
+            console.log("err");
+        }
+        item.destroy();
+        res.redirect('/items/item');
     };
 };
+
 
 module.exports = new ItemsController();

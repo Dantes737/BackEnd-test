@@ -26,7 +26,15 @@
       <span class="info"><%=item.user_id %></span>
     </div>
     <%}%>
-
+<div>
+  <form action="/items/delete-item" method="GET">
+    <label>
+      Item title:
+      <input type="text" name="title">
+    </label>
+    <input type="submit" value="Delete">
+  </form>
+</div>
   </div>
 
 </body>

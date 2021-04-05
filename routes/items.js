@@ -12,7 +12,7 @@ router.get('/item',ItemsController.getItems )
 router.get('/item',ItemsController.getItemByUser )
 router.get('/item/:id',ItemsController.getOneItem )
 router.put('/item',ItemsController.updateItem )
-router.delete('/item/:id',ItemsController.deleteItem )
+router.get('/delete-item',ItemsController.deleteItem )
 
 module.exports = router;
 
