@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/cinema.css' />
+</head>
+<%-include("header.ejs")%>
+
+<body>
+  <div class="main">
+    <h2>Рекомендовані кінотеати</h2>
+    <%for(cinema of cinemaList){%>
+    <div>
+     <span class="JJJ"> <%=cinema.name%></span> --- <a class="JJJ" href="<%=cinema.siteLink%>"><%=cinema.siteLink%></a>
+    </div>
+    <%}%>
+    </div>
+ 
+  </body> 
+</html>

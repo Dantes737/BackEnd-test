@@ -1,0 +1,17 @@
+.component{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.JJJ{
+  font: 25px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+}
+body {
+  padding: 50px;
+}
+.main{
+  padding: 40px;
+  background-color: #6ac861;
+  border-radius: 5px;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/film.css' />
+</head>
+<%-include("header.ejs")%>
+
+<body>
+  <div class="main">
+    <div class="filterComp">
+      <div><input type="text"><button>Finde item</button></div>
+      <div><select name="" id="">
+        <option value="">Books</option>
+        <option value="">Glases</option>
+      </select></div>
+    </div>
+
+    <%for(item of itemsList){%>
+    <div class="component" >
+      <!-- <div class="imgD"></div> -->
+      <span class="info"><%=item.title %></span>
+      <span class="info"><%=item.price %></span>
+      <span class="info"><%=item.category %></span>
+      <span class="info"><%=item.user_id %></span>
+    </div>
+    <%}%>
+
+  </div>
+
+</body>
+
+</html>

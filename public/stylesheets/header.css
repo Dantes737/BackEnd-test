@@ -1,0 +1,21 @@
+header {
+  background-color: #ffd103;
+  padding: 30px;
+  font: 22px "Lucida Grande", Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  height: max-content;
+}
+.pages{
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin-top: 10px;
+  /* display:inline ; */
+  float:right;
+}
+
+.headerBtn{
+  background-color: black;
+  color: #ffd103;
+  font-size: medium;
+  border-radius: 5px;
+}
+ 

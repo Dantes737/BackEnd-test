@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/cinema.css' />
+</head>
+<%-include("header.ejs")%>
+
+  <body>
+    <div class="main">
+      <h2>Add new product</h2>
+      <div class="myform">
+        <form action="/items/item-add" method="GET">
+          <label>
+            Title: <input type="text" name="title">
+
+          </label>
+          <label>
+            Price: <input type="text" name="price">
+
+          </label>
+
+          <label>
+            Category:
+            <select name="category">
+              <option value="books">
+                Books
+              </option>
+            </select>
+          </label>
+
+          <label>
+            Owner: <input type="text" name="user_id">
+          </label>
+          <input type="submit" value="Add item">
+        </form>
+        </form>
+      </div>
+    </div>
+  </body>
+
+</html>
