@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+require('dotenv').config()
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -12,9 +14,9 @@ const aboutRouter = require('./routes/about');
 const addItemRouter = require('./routes/add-item');
 
 //Test DB
-const db = require('./config/dataBase.js')
+const db = require('./config/dataBase.js');
 db.authenticate()
-  .then(() => console.log('Data base connected...###'))
+  .then(() => console.log('>---->----DATA BASE CONNECTED----<----<'))
   .catch(err => console.log('Error' + err))
 
 const app = express();
@@ -29,28 +31,36 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   next();
 });
 
-app.use((req, res, next) => {
-  const openPathes = ["/users/user-login", "/","/users/user-sign-in"];
-  if (!openPathes.includes(req.path)) {
-    try {
-      console.log("req.headers.authorization");
-      console.log(req.headers.authorization);
 
-      req.user = parseBearer(req.headers.authorization, req.headers);
-      console.log(req.user);
-    } catch (err) {
-      return res.status(401).json({ result: "Access Denied" });
-    }
-  }
-  next();
-});
+///--------------------------Розкоментуйте----------------------------
+// -----------------------для превірки токена
+
+// app.use((req, res, next) => {
+//   const openPathes = ["/users/user-sign-in","/","/users/user-login"];
+
+//   if (!openPathes.includes(req.path)) {
+//     try {
+//       const authHeader = req.headers['authorization']
+//       //if Bearer token
+//       // req.user = authHeader && authHeader.split(' ')[1];
+//       if (authHeader!==process.env.APP_TOKEN_SECRET) return res.status(401).json({ result: "Access Denied.Wrong TOKEN" });
+//       console.log(req.user);
+//     } catch (err) {
+//       return res.status(401).json({ result: "Access Denied" });
+//     }
+//   }
+//   next();
+// });
+
+///--------------------------Розкоментуйте----------------------------
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
