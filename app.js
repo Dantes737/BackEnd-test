@@ -29,6 +29,29 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  // res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
+});
+
+app.use((req, res, next) => {
+  const openPathes = ["/users/user-login", "/","/users/user-sign-in"];
+  if (!openPathes.includes(req.path)) {
+    try {
+      console.log("req.headers.authorization");
+      console.log(req.headers.authorization);
+
+      req.user = parseBearer(req.headers.authorization, req.headers);
+      console.log(req.user);
+    } catch (err) {
+      return res.status(401).json({ result: "Access Denied" });
+    }
+  }
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);

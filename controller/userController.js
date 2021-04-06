@@ -63,8 +63,8 @@ class UsersController {
                 ////////////////////////////////////////////////
                 const loginHash=validPassword(req.body.password,myUser.salt) ;
                 const signInHash=myUser.hash;
-                console.log(`HASH-1:${loginHash}`);
-                console.log(`HASH-2:${signInHash}`);
+                // console.log(`HASH-1:${loginHash}`);
+                // console.log(`HASH-2:${signInHash}`);
 
 
                 if (!myUser) {
@@ -82,6 +82,7 @@ class UsersController {
                     req.headers
                 );
                 const expiresAt = new Date().getTime() + 36000000;
+            
                 res.status(200).json({
                     result: "Authorized",
                     user: {
