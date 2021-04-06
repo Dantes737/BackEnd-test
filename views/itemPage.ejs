@@ -25,7 +25,7 @@
         <span class="info">Title : <%= product.title %></span>
       </div>
       <div>
-        <span class="info">Price : <%= product.price %></span>
+        <span class="infoH">Price : <%= product.price %></span>
       </div>
       <div>
         <span class="info">Category : <%= product.category %></span>
@@ -33,7 +33,18 @@
       <div>
         <span class="info">Seller ID : <%= product.user_id %></span>
       </div>
-
+      <div>
+        <h2>Change product price</h2>
+        <form action="/items/item-update" method="GET">
+         <label >
+           Price :
+           <input type="number" name="price">
+           <input type="text" name="id" hidden 
+           value="<%= product.id %>">
+         </label>
+          <input type="submit" value="Set new price!">
+        </form>
+      </div>
   </body>
 
 </html>

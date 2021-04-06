@@ -3,8 +3,25 @@ const Item = require('../models/item.js');
 
 class ItemsController {
     async createItem(req, res) {
+
+        let validateTitle = (title) => {
+            var regEx = /^[a-zA-Z ]{2,30}$/;
+            return regEx.test(title);
+        }
+        if (!req.query.price) {
+            return res.status(401).json({ error: "Product price is required" });
+        };
+        if (!req.query.user_id) {
+            return res.status(401).json({ error: "Product seller is required" });
+        };
+        if (!req.query.title) {
+            return res.status(401).json({ error: "Product title is required" });
+        };
+        if (!validateTitle(req.query.title)) {
+            return res.status(401).json({ error: "Not valid title !" });
+        }
         const { title, price, category, user_id } = req.query
-        Item.create({
+       await Item.create({
             title, price, category, user_id
         })
         //  .then(items => {
@@ -22,9 +39,9 @@ class ItemsController {
     };
     async getOneItem(req, res) {
         console.log(req.params.id);
-            Item.findOne({ where: { id:req.params.id } }).then(item => {
-                res.render('itemPage', { title: 'RottenApples Market', product: item })
-            })
+        Item.findOne({ where: { id: req.params.id } }).then(item => {
+            res.render('itemPage', { title: 'RottenApples Market', product: item })
+        })
     };
 
     async getItemsByCategory(req, res) {
@@ -60,19 +77,31 @@ class ItemsController {
     };
 
     async updateItem(req, res) {
-        const { id, title, price, category } = req.body
-        console.log(id, title, price, category);
-        const items = await db
-            .query(`UPDATE item set  title=$1, price=$2, category=$3 where id=$4 RETURNING *`, [title, price, category, id])
-        res.json(items.rows[0])
+       let prod=await Item.findOne({ where: { id: req.query.id } })
+       prod.price=req.query.price;
+       await prod.save();
+    //    res.redirect('/items/item');
+    res.render('itemPage', { title: 'RottenApples Market', product: prod })
     };
+
     async deleteItem(req, res) {
-        let item = await Item.findOne({ where: { title: req.query.title } }).catch(e => {
-            console.log(e.message)
-        })
-        if (!item) {
-            console.log("err");
+
+        let validateTitle = (title) => {
+            var regEx = /^[a-zA-Z ]{2,30}$/;
+            return regEx.test(title);
         }
+
+        if (!req.query.title) {
+            return res.status(401).json({ error: "Product title is required" });
+        };
+        if (!validateTitle(req.query.title)) {
+            return res.status(401).json({ error: "Not valid title !" });
+        }
+        let item = await Item.findOne({ where: { title: req.query.title } })
+     
+        if (!item) {
+            return res.status(401).json({ error: "Product not found !" });
+        };
         item.destroy();
         res.redirect('/items/item');
     };
