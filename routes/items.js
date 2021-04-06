@@ -9,9 +9,10 @@ const ItemsController=require('../controller/itemController.js')
 // });
 router.get('/item-add',ItemsController.createItem )
 router.get('/item',ItemsController.getItems )
-router.get('/item',ItemsController.getItemByUser )
-router.get('/item/:id',ItemsController.getOneItem )
-router.put('/item',ItemsController.updateItem )
+router.get('/items-category',ItemsController.getItemsByCategory )
+router.get('/items-price',ItemsController.filterItems )
+router.get('/item-description/:id',ItemsController.getOneItem )
+router.put('/item-update',ItemsController.updateItem )
 router.get('/delete-item',ItemsController.deleteItem )
 
 module.exports = router;

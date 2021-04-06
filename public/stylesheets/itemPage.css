@@ -3,9 +3,13 @@
   flex-direction: column;
   justify-content: center;
 }
-.JJJ{
-  font: 25px "Lucida Grande", Helvetica, Arial, sans-serif;
-
+.infoH{
+  font: 19px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight:500;
+}
+.info{
+  font: 17px "Lucida Grande", Helvetica, Arial, sans-serif;
+  
 }
 body {
   padding: 50px;

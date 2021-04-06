@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+}
+.main{
+  padding: 40px;
+  background-color: #6ac861;
+  border-radius: 5px;
+}
+.mytable{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-top: #ffd103 solid 3px;
+  border-bottom: #ffd103 solid 3px;
+width: 100%;
+}
+.itBtn{
+  border: #ffd103 2px solid;
+  background-color: #6ac861;
+  color: #382702;
+  font-size: medium;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.infoH{
+  font: 19px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+.info{
+  font: 17px "Lucida Grande", Helvetica, Arial, sans-serif;
+  
+}

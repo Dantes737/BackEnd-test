@@ -10,7 +10,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
 const itemRouter = require('./routes/item-page');
-const aboutRouter = require('./routes/about');
 const addItemRouter = require('./routes/add-item');
 
 //Test DB
@@ -66,7 +65,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
 app.use('/item-page', itemRouter);
-app.use('/about', aboutRouter);
 app.use('/add-item', addItemRouter);
 
 

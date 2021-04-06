@@ -21,15 +21,44 @@ class ItemsController {
             .catch(err => console.log('Error' + err))
     };
     async getOneItem(req, res) {
-        let id = req.params.id
-        const item = await db.query('SELECT * FROM item where id=$1', [id])
-        res.json(item.rows[0])
+        console.log(req.params.id);
+            Item.findOne({ where: { id:req.params.id } }).then(item => {
+                res.render('itemPage', { title: 'RottenApples Market', product: item })
+            })
     };
-    async getItemByUser(req, res) {
-        let id = req.query.id
-        const item = await db.query('SELECT * FROM item where user_id=$1', [id])
-        res.json(item.rows)
+
+    async getItemsByCategory(req, res) {
+        // console.log(req.query.category);
+        if (req.query.category === 'all') {
+            Item.findAll()
+                .then(items => {
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items })
+                }).catch(err => console.log('Error' + err))
+        } else {
+            Item.findAll({ where: { category: req.query.category } })
+                .then(items => {
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items })
+                }).catch(err => console.log('Error' + err))
+        }
     };
+
+    async filterItems(req, res) {
+        console.log(req.query.price);
+        if (req.query.price === 'cheap') {
+            Item.findAll()
+                .then(items => {
+                    let newItemsArr = items.sort((item1, item2) => item1.price - item2.price);
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: newItemsArr })
+                }).catch(err => console.log('Error' + err))
+        } else if (req.query.price === 'expensive') {
+            Item.findAll()
+                .then(items => {
+                    let newItemsArr = items.sort((item1, item2) => item2.price - item1.price);
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: newItemsArr })
+                }).catch(err => console.log('Error' + err))
+        }
+    };
+
     async updateItem(req, res) {
         const { id, title, price, category } = req.body
         console.log(id, title, price, category);

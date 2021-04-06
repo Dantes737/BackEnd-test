@@ -5,7 +5,7 @@
   <title>
     <%= title %>
   </title>
-  <link rel='stylesheet' href='/stylesheets/cinema.css' />
+  <link rel='stylesheet' href='/stylesheets/itemPage.css' />
 </head>
 <%-include("header.ejs")%>
 
@@ -19,25 +19,25 @@
 
           </label>
           <label>
-            Price: <input type="text" name="price">
+            Price: <input type="number" name="price">
 
           </label>
 
           <label>
             Category:
             <select name="category">
-              <option value="books">
-                Books
-              </option>
+              <option value="fruits">Fruits</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="meat">Meat</option>
             </select>
           </label>
 
           <label>
-            Owner: <input type="text" name="user_id">
+            Owner: <input type="number" name="user_id">
           </label>
           <input type="submit" value="Add item">
         </form>
-        
+
       </div>
     </div>
   </body>

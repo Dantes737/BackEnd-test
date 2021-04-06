@@ -2,41 +2,81 @@
 <html>
 
 <head>
-  <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/film.css' />
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/item.css' />
 </head>
 <%-include("header.ejs")%>
 
-<body>
-  <div class="main">
-    <div class="filterComp">
-      <div><input type="text"><button>Finde item</button></div>
-      <div><select name="" id="">
-        <option value="">Books</option>
-        <option value="">Glases</option>
-      </select></div>
+  <body>
+    <div class="main">
+      <div class="filterComp">
+        <div>
+          <form action="/items/items-category" method="GET">
+            <span class="infoH">Category :</span>
+            <select name="category" id="selectCategory">
+              <option value="all">All products</option>
+              <option value="fruits">Fruits</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="meat">Meat</option>
+            </select>
+            <input type="submit" value="Set category !">
+          </form>
+          <form action="/items/items-price" method="GET">
+            <span class="infoH"> Price filter :</span>
+            <select name="price" id="">
+              <option value="cheap">Cheaper products</option>
+              <option value="expensive">Expensive products</option>
+            </select>
+            <input type="submit" value="Set price!">
+          </form>
+
+        </div>
+      </div>
+      <div>
+        <table class="mytable">
+          <tr>
+            <td class="infoH">Title :</td>
+            <td class="infoH">Price :</td>
+            <td class="infoH">Category :</td>
+            <td class="infoH">Seller ID :</td>
+            <td class="infoH">Description :</td>
+          </tr>
+          <%for(item of itemsList){%>
+            <tr>
+              <td class="info">
+                <%=item.title %>
+              </td>
+              <td class="info">
+                <%=item.price %>
+              </td>
+              <td class="info">
+                <%=item.category %>
+              </td>
+              <td class="info">
+                <%=item.user_id %>
+              </td>
+              <td>
+                <button class="itBtn" 
+                OnClick="location.href='/items/item-description/<%=item.id %>'">
+                  Item descr</button>
+              </td>
+            </tr>
+            <%}%>
+        </table>
+      </div>
+      <div>
+        <form action="/items/delete-item" method="GET">
+          <label class="infoH">
+            Item title:
+            <input type="text" name="title">
+          </label>
+          <input type="submit" value="Delete">
+        </form>
+      </div>
     </div>
 
-    <%for(item of itemsList){%>
-    <div class="component" >
-      <!-- <div class="imgD"></div> -->
-      <span class="info"><%=item.title %></span>
-      <span class="info"><%=item.price %></span>
-      <span class="info"><%=item.category %></span>
-      <span class="info"><%=item.user_id %></span>
-    </div>
-    <%}%>
-<div>
-  <form action="/items/delete-item" method="GET">
-    <label>
-      Item title:
-      <input type="text" name="title">
-    </label>
-    <input type="submit" value="Delete">
-  </form>
-</div>
-  </div>
-
-</body>
+  </body>
 
 </html>

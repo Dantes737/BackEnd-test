@@ -6,6 +6,34 @@ require('dotenv').config();
 class UsersController {
     //------------Реєстрація нового користувача-----------------------
     async signIN(req, res) {
+        
+        let validateEmail = (email) => {
+            var regEx = /\S+@\S+\.\S+/;
+            return regEx.test(email);
+        }
+        let validatePassword = (password) => {
+            var regEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+            return regEx.test(password);
+        }
+        if (!req.body.name) {
+            return res.status(401).json({ error: "Name is required" });
+        }
+        if (!req.body.nick) {
+            return res.status(401).json({ error: "Nick is required" });
+        }
+        if (!req.body.email) {
+            return res.status(401).json({ error: "Email is required" });
+        }
+        if (!validateEmail(req.body.email)) {
+            return res.status(401).json({ error: "Not valid email" });
+        }
+        if (!validatePassword(req.body.password)) {
+            return res.status(401).json({ error: "Not valid password. Should contain at least one digit,one lower case,one upper case, at least 8 from the mentioned characters" });
+        }
+        if (!req.body.password) {
+            return res.status(401).json({ error: "Password is required" });
+        }
+
         let salt;
         let hash;
         const { name, nick, email, password } = req.body;
@@ -22,7 +50,7 @@ class UsersController {
             name, nick, salt, hash, email
         })
             .then((user) => {
-                console.log(user);
+                // console.log(user);
                 ////----------------Статичний токен----------------
                 const token = process.env.APP_TOKEN_SECRET;
 
