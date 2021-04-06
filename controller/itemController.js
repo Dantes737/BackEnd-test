@@ -77,6 +77,9 @@ class ItemsController {
     };
 
     async updateItem(req, res) {
+        if (!req.query.price) {
+            return res.status(401).json({ error: "Product price is required" });
+        };
        let prod=await Item.findOne({ where: { id: req.query.id } })
        prod.price=req.query.price;
        await prod.save();
