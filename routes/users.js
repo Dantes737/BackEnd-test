@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const UsersController=require('../controller/userController.js')
+const UsersController=require('../controllers/userController.js')
 
 
 router.post('/user-sign-in',UsersController.signIN )
