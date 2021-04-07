@@ -38,9 +38,6 @@ app.use(function (req, res, next) {
 });
 
 
-///--------------------------Розкоментуйте----------------------------
-// -----------------------для превірки токена
-
 // app.use((req, res, next) => {
 //   const openPathes = ["/users/user-sign-in","/","/users/user-login"];
 
@@ -57,8 +54,6 @@ app.use(function (req, res, next) {
 //   }
 //   next();
 // });
-
-///--------------------------Розкоментуйте----------------------------
 
 
 app.use('/', indexRouter);
