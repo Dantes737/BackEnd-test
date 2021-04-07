@@ -5,11 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config();
 
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
-const addItemRouter = require('./routes/add-item');
 
 //Test DB
 const db = require('./config/dataBase.js');
@@ -54,14 +52,9 @@ app.use(function (req, res, next) {
 //   next();
 // });
 
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
-app.use('/add-item', addItemRouter);
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
