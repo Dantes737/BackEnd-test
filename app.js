@@ -9,7 +9,6 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
-const itemRouter = require('./routes/item-page');
 const addItemRouter = require('./routes/add-item');
 
 //Test DB
@@ -59,7 +58,6 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
-app.use('/item-page', itemRouter);
 app.use('/add-item', addItemRouter);
 
 
