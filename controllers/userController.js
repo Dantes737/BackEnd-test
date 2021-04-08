@@ -46,7 +46,7 @@ class UsersController {
         };
         setPassword(password);
         console.log(name, nick, salt, hash, email);
-        User.create({
+        await User.create({
             name, nick, salt, hash, email
         })
             .then((user) => {

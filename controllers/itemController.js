@@ -28,7 +28,7 @@ class ItemsController {
     };
 
     async getItems(req, res) {
-        Item.findAll()
+        await Item.findAll()
             .then(items => {
                 res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
             })
@@ -36,7 +36,7 @@ class ItemsController {
     };
     async getOneItem(req, res) {
         console.log(req.params.id);
-        Item.findOne({ where: { id: req.params.id } }).then(item => {
+        await Item.findOne({ where: { id: req.params.id } }).then(item => {
             res.render('itemPage', { title: 'RottenApples Market', product: item })
         })
     };
@@ -44,12 +44,12 @@ class ItemsController {
     async getItemsByCategory(req, res) {
         // console.log(req.query.category);
         if (req.query.category === 'all') {
-            Item.findAll()
+            await Item.findAll()
                 .then(items => {
                     res.render('items-listPage', { title: 'RottenApples Market', itemsList: items })
                 }).catch(err => console.log('Error' + err))
         } else {
-            Item.findAll({ where: { category: req.query.category } })
+            await Item.findAll({ where: { category: req.query.category } })
                 .then(items => {
                     res.render('items-listPage', { title: 'RottenApples Market', itemsList: items })
                 }).catch(err => console.log('Error' + err))
@@ -59,22 +59,18 @@ class ItemsController {
     async filterItems(req, res) {
         console.log(req.query.price);
         if (req.query.price === 'cheap') {
-            Item.findAll({
-                order: [
-                    ['price', 'ASC'],
-                ]
+            await Item.findAll({
+                order: [['price', 'ASC']]
             }).then(items => {
-                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
-                }).catch(err => console.log('Error' + err))
+                res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
+            }).catch(err => console.log('Error' + err))
 
         } else if (req.query.price === 'expensive') {
-            Item.findAll({
-                order: [
-                    ['price', 'DESC'],
-                ]
+            await Item.findAll({
+                order: [['price', 'DESC']]
             }).then(items => {
-                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
-                }).catch(err => console.log('Error' + err))
+                res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
+            }).catch(err => console.log('Error' + err))
         }
     };
 
@@ -107,7 +103,7 @@ class ItemsController {
         if (!item) {
             return res.status(401).json({ error: "Product not found !" });
         };
-        item.destroy();
+        await item.destroy();
         res.redirect('/items/item');
     };
 };

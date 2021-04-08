@@ -1,10 +1,10 @@
 class IndexController {
 
-    async openHomePage(req, res) {
+     openHomePage(req, res) {
         res.render('index', { title: 'RottenApples Market' });
     };
 
-    async openAddItemPage(req, res) {
+     openAddItemPage(req, res) {
         res.render('addItemPage', { title: 'RottenApples Market' })
     };
 };
