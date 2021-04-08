@@ -13,5 +13,5 @@ module.exports = (req, res, next) => {
         return res.status(401).json({
             message: "You don't have permission to access.Auth failed!"
         });
-    }
+    };
 };
