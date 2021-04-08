@@ -21,11 +21,12 @@ class ItemsController {
             return res.status(401).json({ error: "Not valid title !" });
         }
         const { title, price, category, user_id } = req.body
-       await Item.create({
+        await Item.create({
             title, price, category, user_id
         })
         res.redirect('/items/item');
     };
+
     async getItems(req, res) {
         Item.findAll()
             .then(items => {
@@ -58,16 +59,21 @@ class ItemsController {
     async filterItems(req, res) {
         console.log(req.query.price);
         if (req.query.price === 'cheap') {
-            Item.findAll()
-                .then(items => {
-                    let newItemsArr = items.sort((item1, item2) => item1.price - item2.price);
-                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: newItemsArr })
+            Item.findAll({
+                order: [
+                    ['price', 'ASC'],
+                ]
+            }).then(items => {
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
                 }).catch(err => console.log('Error' + err))
+
         } else if (req.query.price === 'expensive') {
-            Item.findAll()
-                .then(items => {
-                    let newItemsArr = items.sort((item1, item2) => item2.price - item1.price);
-                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: newItemsArr })
+            Item.findAll({
+                order: [
+                    ['price', 'DESC'],
+                ]
+            }).then(items => {
+                    res.render('items-listPage', { title: 'RottenApples Market', itemsList: items });
                 }).catch(err => console.log('Error' + err))
         }
     };
@@ -76,11 +82,11 @@ class ItemsController {
         if (!req.body.price) {
             return res.status(401).json({ error: "Product price is required" });
         };
-       let prod=await Item.findOne({ where: { id: req.body.id } })
-       prod.price=req.body.price;
-       await prod.save();
-    //    res.redirect('/items/item');
-    res.render('itemPage', { title: 'RottenApples Market', product: prod })
+        let prod = await Item.findOne({ where: { id: req.body.id } })
+        prod.price = req.body.price;
+        await prod.save();
+        //    res.redirect('/items/item');
+        res.render('itemPage', { title: 'RottenApples Market', product: prod })
     };
 
     async deleteItem(req, res) {
@@ -97,7 +103,7 @@ class ItemsController {
             return res.status(401).json({ error: "Not valid title !" });
         }
         let item = await Item.findOne({ where: { title: req.query.title } })
-     
+
         if (!item) {
             return res.status(401).json({ error: "Product not found !" });
         };
