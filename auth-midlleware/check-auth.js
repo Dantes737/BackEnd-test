@@ -1,5 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const ApiError = require('../error/ApiError.js');
+
 
 module.exports = (req, res, next) => {
     try {
@@ -10,8 +12,7 @@ module.exports = (req, res, next) => {
         next();
         req.userData = decodet;
     } catch (error) {
-        return res.status(401).json({
-            message: "You don't have permission to access.Auth failed!"
-        });
+        next(ApiError.authError("Error: You don't have permission to access. Auth failed!"));
+        return;
     };
 };

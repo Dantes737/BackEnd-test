@@ -1,11 +1,12 @@
 const crypto = require("crypto");
 const { prepareToken } = require("../utils/token");
 const User = require('../models/user.js');
+const ApiError = require('../error/ApiError.js');
 require('dotenv').config();
 
 class UsersController {
     //------------Реєстрація нового користувача-----------------------
-    async signIN(req, res) {
+    async signIN(req, res, next) {
 
         let validateEmail = (email) => {
             var regEx = /\S+@\S+\.\S+/;
@@ -16,22 +17,28 @@ class UsersController {
             return regEx.test(password);
         }
         if (!req.body.name) {
-            return res.status(401).json({ error: "Name is required" });
+            next(ApiError.badRequest( "Name is required" ));
+            return;
         }
         if (!req.body.nick) {
-            return res.status(401).json({ error: "Nick is required" });
+            next(ApiError.badRequest( "Nick is required" ));
+            return;
         }
         if (!req.body.email) {
-            return res.status(401).json({ error: "Email is required" });
+            next(ApiError.badRequest( "Email is required" ));
+            return;
         }
         if (!validateEmail(req.body.email)) {
-            return res.status(401).json({ error: "Not valid email" });
+            next(ApiError.badRequest( "Not valid email" ));
+            return;
         }
         if (!validatePassword(req.body.password)) {
-            return res.status(401).json({ error: "Not valid password. Should contain at least one digit,one lower case,one upper case, at least 8 from the mentioned characters" });
+            next(ApiError.badRequest( "Not valid password. Should contain at least one digit,one lower case,one upper case, at least 8 from the mentioned characters" ));
+            return;
         }
         if (!req.body.password) {
-            return res.status(401).json({ error: "Password is required" });
+            next(ApiError.badRequest( "Password is required" ));
+            return;
         }
 
         let salt;
@@ -68,12 +75,14 @@ class UsersController {
             });
     };
     //-------------------Логінізація користувача-----------------------
-    async login(req, res) {
+    async login(req, res, next) {
         if (!req.body.email) {
-            return res.status(401).json({ error: "Email is required" });
+            next(ApiError.badRequest( "Email is required" ));
+            return;
         }
         if (!req.body.password) {
-            return res.status(401).json({ error: "Password is required" });
+            next(ApiError.badRequest( "Password is required" ));
+            return;
         }
 
         await User.findOne({ where: { email: req.body.email } })

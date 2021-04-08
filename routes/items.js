@@ -11,7 +11,9 @@ router.post('/item',checkAuth, ItemsController.createItem);        //<----
 router.get('/items-category', ItemsController.getItemsByCategory);
 router.get('/items-price', ItemsController.filterItems);
 router.get('/item/:id', ItemsController.getOneItem);
-router.post('/update-item',checkAuth, ItemsController.updateItem); //<----
+
+router.post('/update-item',ItemsController.updateItem);
+// router.post('/update-item',checkAuth, ItemsController.updateItem); //<----
 router.get('/delete-item',checkAuth, ItemsController.deleteItem);  //<----
 
 module.exports = router;

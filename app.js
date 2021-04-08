@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const apiErrorHandler=require('./error/api-error-handler.js');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,7 +14,7 @@ db.authenticate()
   .then(() => console.log('>---->----DATA BASE CONNECTED----<----<'))
   .catch(err => console.log('Error' + err))
 
-  
+
 const app = express();
 
 // view engine setup
@@ -33,20 +33,6 @@ app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
 
 
-
-app.use((req, res, next) => {
-  const error = new Error('Not found');
-  error.status = 404;
-  next(error);
-});
-
-app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-    error: {
-      message: error.message
-    }
-  });
-});
+app.use(apiErrorHandler);
 
 module.exports = app;

@@ -1,24 +1,28 @@
 const Item = require('../models/item.js');
-
+const ApiError = require('../error/ApiError.js');
 
 class ItemsController {
-    async createItem(req, res) {
+    async createItem(req, res, next) {
 
         let validateTitle = (title) => {
             var regEx = /^[a-zA-Z ]{2,30}$/;
             return regEx.test(title);
         }
         if (!req.body.price) {
-            return res.status(401).json({ error: "Product price is required" });
+            next(ApiError.badRequest("Product price is required"));
+            return;
         };
         if (!req.body.user_id) {
-            return res.status(401).json({ error: "Product seller is required" });
+            next(ApiError.badRequest("Product seller is required"));
+            return;
         };
         if (!req.body.title) {
-            return res.status(401).json({ error: "Product title is required" });
+            next(ApiError.badRequest("Product title is required"));
+            return;
         };
         if (!validateTitle(req.body.title)) {
-            return res.status(401).json({ error: "Not valid title !" });
+            next(ApiError.badRequest("Not valid title !"));
+            return;
         }
         const { title, price, category, user_id } = req.body
         await Item.create({
@@ -74,18 +78,23 @@ class ItemsController {
         }
     };
 
-    async updateItem(req, res) {
+    async updateItem(req, res, next) {
         if (!req.body.price) {
-            return res.status(401).json({ error: "Product price is required" });
+            next(ApiError.badRequest('Product price is required'));
+            return;
         };
+        //     try {
+
+        //          } catch (error) {
+
+        //                             }
         let prod = await Item.findOne({ where: { id: req.body.id } })
         prod.price = req.body.price;
         await prod.save();
-        //    res.redirect('/items/item');
         res.render('itemPage', { title: 'RottenApples Market', product: prod })
     };
 
-    async deleteItem(req, res) {
+    async deleteItem(req, res, next) {
 
         let validateTitle = (title) => {
             var regEx = /^[a-zA-Z ]{2,30}$/;
@@ -93,15 +102,18 @@ class ItemsController {
         }
 
         if (!req.query.title) {
-            return res.status(401).json({ error: "Product title is required" });
+            next(ApiError.badRequest("Product title is required"));
+            return;
         };
         if (!validateTitle(req.query.title)) {
-            return res.status(401).json({ error: "Not valid title !" });
+            next(ApiError.badRequest("Not valid title !"));
+            return;
         }
         let item = await Item.findOne({ where: { title: req.query.title } })
 
         if (!item) {
-            return res.status(401).json({ error: "Product not found !" });
+            next(ApiError.badRequest("Product not found !"));
+            return;
         };
         await item.destroy();
         res.redirect('/items/item');
