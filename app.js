@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-require('dotenv').config();
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -27,49 +27,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function (req, res, next) {
-  // res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  next();
-});
-
-
-// app.use((req, res, next) => {
-//   const openPathes = ["/users/user-sign-in","/","/users/user-login"];
-
-//   if (!openPathes.includes(req.path)) {
-//     try {
-//       const authHeader = req.headers['authorization']
-//       //if Bearer token
-//       // req.user = authHeader && authHeader.split(' ')[1];
-//       if (authHeader!==process.env.APP_TOKEN_SECRET) return res.status(401).json({ result: "Access Denied.Wrong TOKEN" });
-//       console.log(req.user);
-//     } catch (err) {
-//       return res.status(401).json({ result: "Access Denied" });
-//     }
-//   }
-//   next();
-// });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+
+
+app.use((req, res, next) => {
+  const error = new Error('Not found');
+  error.status = 404;
+  next(error);
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message
+    }
+  });
 });
 
 module.exports = app;

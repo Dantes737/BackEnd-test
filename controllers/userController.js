@@ -6,7 +6,7 @@ require('dotenv').config();
 class UsersController {
     //------------Реєстрація нового користувача-----------------------
     async signIN(req, res) {
-        
+
         let validateEmail = (email) => {
             var regEx = /\S+@\S+\.\S+/;
             return regEx.test(email);
@@ -51,17 +51,13 @@ class UsersController {
         })
             .then((user) => {
                 // console.log(user);
-                ////----------------Статичний токен----------------
-                const token = process.env.APP_TOKEN_SECRET;
 
-                ////----------------Згенерований токен----------------
-                // const token = prepareToken(
-                //     {
-                //         id: user.id,
-                //         nick: user.nick,
-                //     },
-                //     req.headers
-                // );
+                const token = prepareToken(
+                    {
+                        id: user.id,
+                        nick: user.nick,
+                    }
+                );
                 return res.status(201).json({
                     result: "Signuped successfully",
                     token,
@@ -109,19 +105,12 @@ class UsersController {
                     return res.status(401).json({ error: "Pass error" });
                 }
 
-                ////----------------Згенерований токен----------------
-
-                // const token = prepareToken(
-                //     {
-                //         id: myUser.id,
-                //         nick: myUser.nick,
-                //     },
-                //     req.headers
-                // );
-
-                ////----------------Статичний токен----------------
-                const token = process.env.APP_TOKEN_SECRET;
-
+                const token = prepareToken(
+                    {
+                        id: myUser.id,
+                        nick: myUser.nick,
+                    }
+                );
 
                 const expiresAt = new Date().getTime() + 36000000;
 
