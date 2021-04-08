@@ -17,27 +17,27 @@ class UsersController {
             return regEx.test(password);
         }
         if (!req.body.name) {
-            next(ApiError.badRequest( "Name is required" ));
+            next(ApiError.badRequest("Name is required"));
             return;
         }
         if (!req.body.nick) {
-            next(ApiError.badRequest( "Nick is required" ));
+            next(ApiError.badRequest("Nick is required"));
             return;
         }
         if (!req.body.email) {
-            next(ApiError.badRequest( "Email is required" ));
+            next(ApiError.badRequest("Email is required"));
             return;
         }
         if (!validateEmail(req.body.email)) {
-            next(ApiError.badRequest( "Not valid email" ));
+            next(ApiError.badRequest("Not valid email"));
             return;
         }
         if (!validatePassword(req.body.password)) {
-            next(ApiError.badRequest( "Not valid password. Should contain at least one digit,one lower case,one upper case, at least 8 from the mentioned characters" ));
+            next(ApiError.badRequest("Not valid password. Should contain at least one digit,one lower case,one upper case, at least 8 from the mentioned characters"));
             return;
         }
         if (!req.body.password) {
-            next(ApiError.badRequest( "Password is required" ));
+            next(ApiError.badRequest("Password is required"));
             return;
         }
 
@@ -71,17 +71,18 @@ class UsersController {
                 });
             })
             .catch((err) => {
-                return res.status(500).json({ error: "Signup error" });
+                next(ApiError.dataBaseErrors('Bad Gateway.User not Sign In'));
+                return;
             });
     };
     //-------------------Логінізація користувача-----------------------
     async login(req, res, next) {
         if (!req.body.email) {
-            next(ApiError.badRequest( "Email is required" ));
+            next(ApiError.badRequest("Email is required"));
             return;
         }
         if (!req.body.password) {
-            next(ApiError.badRequest( "Password is required" ));
+            next(ApiError.badRequest("Password is required"));
             return;
         }
 
@@ -136,7 +137,8 @@ class UsersController {
                 });
             })
             .catch((err) => {
-                return res.status(401).json({ error: "Login error" });
+                next(ApiError.authError("Login error"));
+                return;
             });
     };
 };

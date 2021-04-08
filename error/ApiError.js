@@ -13,6 +13,9 @@ class ApiError {
     static internal(message) {
         return new ApiError(500, message);
     }
+    static dataBaseErrors(message) {
+        return new ApiError(502, message);
+    }
 };
 
 module.exports=ApiError;
