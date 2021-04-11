@@ -79,7 +79,11 @@ class ItemsController {
 
     async getItemsByCategory(req, res, next) {
         // console.log(req.query.category);
-        if (req.query.category&&req.query.category === 'all') {
+        if (!req.query.category) {
+            next(ApiError.badRequest("Product category is required"));
+            return;
+        }
+        if (req.query.category === 'all') {
     try {
         const items = await db.query('SELECT * FROM items');
         let itemsList = items[0];
