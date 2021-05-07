@@ -8,7 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
 
-//Test DB
+//connecting to DB
 const db = require('./config/dataBase.js');
 db.authenticate()
   .then(() => console.log('>---->----DATA BASE CONNECTED----<----<'))

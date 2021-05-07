@@ -84,7 +84,7 @@ class UsersController {
         if (!req.body.password) {
             next(ApiError.badRequest("Password is required"));
             return;
-        }
+        };
 
         await User.findOne({ where: { email: req.body.email } })
             // .exec()

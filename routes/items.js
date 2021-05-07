@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const checkAuth=require('../auth-midlleware/check-auth.js')
-const ItemsController = require('../controllers/itemController.js')
+const checkAuth=require('../auth-midlleware/check-auth.js');
+const ItemsController = require('../controllers/itemController.js');
 
 //незареєстрований користувач може тільки переглядати сайт 
 //але не змінювати дані

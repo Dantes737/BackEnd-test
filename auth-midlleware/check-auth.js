@@ -2,7 +2,6 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const ApiError = require('../error/ApiError.js');
 
-
 module.exports = (req, res, next) => {
     try {
         const AUTH_HEADER = req.headers['authorization'];

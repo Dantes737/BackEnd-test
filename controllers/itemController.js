@@ -65,7 +65,7 @@ class ItemsController {
         if (!req.params.id) {
             next(ApiError.badRequest("Item ID is required"));
             return;
-        }
+        };
         try {
             console.log(req.params.id);
             await Item.findOne({ where: { id: req.params.id } }).then(item => {
@@ -181,7 +181,7 @@ class ItemsController {
         } catch (error) {
             next(ApiError.dataBaseErrors('Bad Gateway'));
             return;
-        }
+        };
     };
 };
 
